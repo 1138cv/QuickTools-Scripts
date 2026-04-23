@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "scripts": [
+    {
+      "id": "read-clipboard",
+      "name": "读取剪贴板",
+      "description": "读取剪贴板内容并显示在日志中",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "read-clipboard.js",
+      "tags": ["剪贴板", "工具"]
+    },
+    {
+      "id": "write-clipboard",
+      "name": "写入剪贴板",
+      "description": "将预设文本写入剪贴板",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "write-clipboard.js",
+      "tags": ["剪贴板", "工具"]
+    },
+    {
+      "id": "process-clipboard",
+      "name": "处理剪贴板",
+      "description": "读取剪贴板内容，添加时间戳后写回",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "process-clipboard.js",
+      "tags": ["剪贴板", "工具", "文本处理"]
+    }
+  ]
+}
