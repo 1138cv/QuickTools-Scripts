@@ -109,6 +109,7 @@ async function main() {
         // 将结果写入剪贴板（异步）
         await QuickToolsAPI.clipboard.writeText(sqlStr);
         QuickToolsAPI.log.success('处理成功，SQL 已复制到剪贴板');
+        QuickToolsAPI.log.success('版本号：1.0.2');
 
     } catch (e) {
         QuickToolsAPI.log.error('执行出错：' + e.message);
