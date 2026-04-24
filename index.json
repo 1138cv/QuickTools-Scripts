@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": [
     {
       "id": "read-clipboard1",
@@ -27,6 +27,15 @@
       "version": "1.0.0",
       "file": "process-clipboard.js",
       "tags": ["剪贴板", "工具", "文本处理"]
+    },
+    {
+      "id": "replace-params",
+      "name": "填充参数到SQL中",
+      "description": "从剪贴板获取JSON参数和SQL，将参数填充到SQL中",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "replace_params.js",
+      "tags": ["SQL", "剪贴板", "文本处理"]
     }
   ]
 }
