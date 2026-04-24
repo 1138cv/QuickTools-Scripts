@@ -36,6 +36,15 @@
       "version": "1.0.2",
       "file": "replace_params.js",
       "tags": ["SQL", "剪贴板", "文本处理"]
+    },
+    {
+      "id": "convert_to_mysql_in_list_v2",
+      "name": "转换为MySQL IN列表",
+      "description": "将剪贴板中的文本按分隔符拆分，生成SQL IN表达式",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "convert_to_mysql_in_list_v2.js",
+      "tags": ["SQL", "剪贴板", "文本处理"]
     }
   ]
 }
