@@ -44,12 +44,13 @@ class Snowflake {
 
     this.lastTimestamp = timestamp;
 
-    return BigInt.asUintN(64,
-      BigInt((timestamp - this.twepoch) << this.timestampLeftShift) |
-      BigInt(this.datacenterId << this.datacenterIdShift) |
-      BigInt(this.workerId << this.workerIdShift) |
-      BigInt(this.sequence)
-    ).toString();
+    const id =
+      (BigInt(timestamp - this.twepoch) << BigInt(this.timestampLeftShift)) |
+      (BigInt(this.datacenterId) << BigInt(this.datacenterIdShift)) |
+      (BigInt(this.workerId) << BigInt(this.workerIdShift)) |
+      BigInt(this.sequence);
+    
+    return id.toString();
   }
 
   currentTimestamp() {
@@ -80,10 +81,6 @@ async function main() {
     await QuickToolsAPI.clipboard.writeText(result);
 
     QuickToolsAPI.log.success('已生成100个雪花ID并复制到剪贴板');
-    QuickToolsAPI.log.info('前10个ID示例:');
-    ids.slice(0, 10).forEach((id, index) => {
-      QuickToolsAPI.log.info(`${index + 1}. ${id}`);
-    });
   } catch (e) {
     QuickToolsAPI.log.error('生成失败: ' + e.message);
   }

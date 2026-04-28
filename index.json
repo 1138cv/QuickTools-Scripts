@@ -24,7 +24,7 @@
       "name": "生成雪花ID",
       "description": "生成100个雪花算法ID并复制到剪贴板",
       "author": "QuickTools",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "file": "snowflake_ids.js",
       "tags": ["ID生成", "雪花算法", "工具"]
     }
