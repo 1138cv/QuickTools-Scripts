@@ -5,10 +5,8 @@
 class SnowflakeIdGenerator {
   constructor(workerId, datacenterId) {
     // 常量定义
-    // 取当月1号的时间戳
-    const now = new Date();
-    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    this.twepoch = BigInt(firstDayOfMonth.getTime());
+    // 固定起点 2012-01-01 00:00:00 UTC+8 越小为19位的开头越大
+    this.twepoch = 1325347200000n; // 2012-01-01 00:00:00 UTC+8
     this.workerIdBits = 5n;
     this.datacenterIdBits = 5n;
     this.maxWorkerId = 31n;
