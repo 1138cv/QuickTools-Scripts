@@ -18,6 +18,15 @@
       "version": "1.0.0",
       "file": "convert_to_mysql_in_list_v2.js",
       "tags": ["SQL", "剪贴板", "文本处理"]
+    },
+    {
+      "id": "snowflake_ids",
+      "name": "生成雪花ID",
+      "description": "生成100个雪花算法ID并复制到剪贴板",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "snowflake_ids.js",
+      "tags": ["ID生成", "雪花算法", "工具"]
     }
   ]
 }
