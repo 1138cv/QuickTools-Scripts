@@ -1,78 +1,82 @@
 // 生成雪花算法ID
 // 生成100个雪花ID并复制到剪贴板
 
-// 雪花算法实现
-class Snowflake {
-  constructor(workerId = 0, datacenterId = 0) {
-    this.workerId = workerId;
-    this.datacenterId = datacenterId;
-    this.sequence = 0;
-    this.lastTimestamp = -1;
+// 雪花算法实现 - 参考Java版本
+class SnowflakeIdGenerator {
+  constructor(workerId, datacenterId) {
+    // 常量定义
+    this.twepoch = 1420041600000n; // 2015-01-01
+    this.workerIdBits = 5n;
+    this.datacenterIdBits = 5n;
+    this.maxWorkerId = 31n;
+    this.maxDatacenterId = 31n;
+    this.sequenceBits = 12n;
+    this.workerIdShift = 12n;
+    this.datacenterIdShift = 17n;
+    this.timestampLeftShift = 22n;
+    this.sequenceMask = 4095n;
 
-    // 位移量
-    this.workerIdBits = 5;
-    this.datacenterIdBits = 5;
-    this.sequenceBits = 12;
+    // 参数校验
+    if (workerId < 0n || workerId > this.maxWorkerId) {
+      throw new Error(`worker Id can't be greater than ${this.maxWorkerId} or less than 0`);
+    }
+    if (datacenterId < 0n || datacenterId > this.maxDatacenterId) {
+      throw new Error(`datacenter Id can't be greater than ${this.maxDatacenterId} or less than 0`);
+    }
 
-    this.maxWorkerId = -1 ^ (-1 << this.workerIdBits);
-    this.maxDatacenterId = -1 ^ (-1 << this.datacenterIdBits);
-    this.sequenceMask = -1 ^ (-1 << this.sequenceBits);
-
-    this.workerIdShift = this.sequenceBits;
-    this.datacenterIdShift = this.sequenceBits + this.workerIdBits;
-    this.timestampLeftShift = this.sequenceBits + this.workerIdBits + this.datacenterIdBits;
-
-    // 起始时间戳 (2021-01-01)
-    this.twepoch = 1609459200000;
+    this.workerId = BigInt(workerId);
+    this.datacenterId = BigInt(datacenterId);
+    this.sequence = 0n;
+    this.lastTimestamp = -1n;
   }
 
   nextId() {
-    let timestamp = this.currentTimestamp();
+    let timestamp = BigInt(this.timeGen());
 
     if (timestamp < this.lastTimestamp) {
-      throw new Error('Clock moved backwards');
+      throw new Error(`Clock moved backwards. Refusing to generate id for ${this.lastTimestamp - timestamp} milliseconds`);
     }
 
-    if (timestamp === this.lastTimestamp) {
-      this.sequence = (this.sequence + 1) & this.sequenceMask;
-      if (this.sequence === 0) {
+    if (this.lastTimestamp === timestamp) {
+      this.sequence = (this.sequence + 1n) & this.sequenceMask;
+      if (this.sequence === 0n) {
         timestamp = this.tilNextMillis(this.lastTimestamp);
       }
     } else {
-      this.sequence = 0;
+      this.sequence = 0n;
     }
 
     this.lastTimestamp = timestamp;
 
-    const id =
-      (BigInt(timestamp - this.twepoch) << BigInt(this.timestampLeftShift)) |
-      (BigInt(this.datacenterId) << BigInt(this.datacenterIdShift)) |
-      (BigInt(this.workerId) << BigInt(this.workerIdShift)) |
-      BigInt(this.sequence);
-    
+    // 计算ID: (timestamp - twepoch) << 22 | datacenterId << 17 | workerId << 12 | sequence
+    const id = ((timestamp - this.twepoch) << this.timestampLeftShift) |
+               (this.datacenterId << this.datacenterIdShift) |
+               (this.workerId << this.workerIdShift) |
+               this.sequence;
+
     return id.toString();
   }
 
-  currentTimestamp() {
-    return Date.now();
-  }
-
   tilNextMillis(lastTimestamp) {
-    let timestamp = this.currentTimestamp();
+    let timestamp = BigInt(this.timeGen());
     while (timestamp <= lastTimestamp) {
-      timestamp = this.currentTimestamp();
+      timestamp = BigInt(this.timeGen());
     }
     return timestamp;
+  }
+
+  timeGen() {
+    return Date.now();
   }
 }
 
 async function main() {
   try {
-    const snowflake = new Snowflake(1, 1);
+    const generator = new SnowflakeIdGenerator(1n, 1n);
     const ids = [];
 
     for (let i = 0; i < 100; i++) {
-      ids.push(snowflake.nextId());
+      ids.push(generator.nextId());
     }
 
     const result = ids.join('\n');
