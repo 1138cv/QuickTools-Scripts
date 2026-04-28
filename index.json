@@ -27,6 +27,15 @@
       "version": "1.0.1",
       "file": "snowflake_ids.js",
       "tags": ["ID生成", "雪花算法", "工具"]
+    },
+    {
+      "id": "uuid_generator",
+      "name": "生成UUID",
+      "description": "生成100个UUID（无横线、全小写）并复制到剪贴板",
+      "author": "QuickTools",
+      "version": "1.0.0",
+      "file": "uuid_generator.js",
+      "tags": ["ID生成", "UUID", "工具"]
     }
   ]
 }
